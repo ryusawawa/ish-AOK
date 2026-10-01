@@ -123,7 +123,7 @@ jobs:
             --notes "$BODY" \
             --prerelease \
             --target "${{ github.sha }}"
-       - name: Upload IPA Link
+- name: Upload IPA Link
         uses: actions/upload-artifact@v4
         with:
           name: ish-aok-dev-ipa
