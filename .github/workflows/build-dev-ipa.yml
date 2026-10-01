@@ -50,13 +50,11 @@ jobs:
           echo "Selecting \$LATEST_XCODE"
           sudo xcode-select -s "\$LATEST_XCODE"
           xcodebuild -version
-
       - name: Install build dependencies
         run: |
           brew install llvm lld ninja libarchive
           pip3 install --break-system-packages meson
           echo "(brew --prefix lld)/bin" >> "GITHUB_PATH"
-
       # helix is compiled in (AOK_NATIVE_HELIX=YES in app/iSH.xcconfig) and helix
       # is Rust, so the build needs a Rust toolchain that can emit iOS objects.
       # The runners ship cargo but not the iOS target, and meson's native_rust
@@ -85,7 +83,6 @@ jobs:
             -arch arm64 -sdk iphoneos \
             -derivedDataPath build \
             CODE_SIGNING_ALLOWED=NO CODE_SIGNING_REQUIRED=NO
-
       # An unsigned bundle carries no entitlements, and the AltStore family
       # decides what to ask Apple for by reading the entitlements of the app it
       # re-signs -- so it signed AOK with no App Group and the app booted with
@@ -106,7 +103,6 @@ jobs:
           zip -qr "\$IPA_NAME" Payload
           echo "ipa_name=\(IPA_NAME" >> "\)GITHUB_OUTPUT"
           echo "short_sha=\(SHORT_SHA" >> "\)GITHUB_OUTPUT"
-
       - name: Publish dev-latest release
         env:
           GH_TOKEN: \${{ github.token }}
